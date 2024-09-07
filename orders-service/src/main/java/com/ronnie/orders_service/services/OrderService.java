@@ -50,7 +50,7 @@ public class OrderService {
                 .sku(orderItemRequest.getSku())
                 .price(orderItemRequest.getPrice())
                 .quantity(orderItemRequest.getQuantity())
-                .orders(orders)
+                .order(orders)
                 .build();
     }
 }
