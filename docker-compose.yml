@@ -23,3 +23,14 @@ services:
     ports:
       - 5432:5432
     command: -p 5432
+  db-mp:
+    image: postgres
+    container_name: db-mp
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ms_mp
+      POSTGRES_USER: ronnie
+      POSTGRES_PASSWORD: Test123
+    ports:
+      - 5433:5433
+    command: -p 5433

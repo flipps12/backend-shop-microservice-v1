@@ -27,7 +27,7 @@ public class ProductService {
                 .stock(productRequest.getStock())
                 .limitPerOrder(productRequest.getLimitPerOrder())
                 .StockNecessary(productRequest.getStockNecessary())
-                .status(productRequest.getStatus())
+                .status(false)
                 .build();
 
         productRepository.save(product);
