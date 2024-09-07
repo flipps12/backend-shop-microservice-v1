@@ -25,7 +25,9 @@ public class ProductService {
                 .description(productRequest.getDescription())
                 .price(productRequest.getPrice())
                 .stock(productRequest.getStock())
+                .limitPerOrder(productRequest.getLimitPerOrder())
                 .StockNecessary(productRequest.getStockNecessary())
+                .status(productRequest.getStatus())
                 .build();
 
         productRepository.save(product);
@@ -34,7 +36,7 @@ public class ProductService {
 
     public List<ProductResponse> getAllProducts() {
         var products = productRepository.findAll();
-
+        System.out.println(products);
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
@@ -47,7 +49,9 @@ public class ProductService {
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .stock(product.getStock())
+                .limitPerOrder(product.getLimitPerOrder())
                 .StockNecessary(product.getStockNecessary())
+                .status(product.getStatus())
                 .build();
     }
 }

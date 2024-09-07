@@ -20,8 +20,10 @@ public class Product {
     private String name;
     private String description;
     private Double price;
+    private Long limitPerOrder;
     private Long stock;
     private Boolean StockNecessary;
+    private Boolean status;
 
     @Override
     public String toString() {

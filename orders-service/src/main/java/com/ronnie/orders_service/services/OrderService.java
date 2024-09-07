@@ -8,6 +8,8 @@ import com.ronnie.orders_service.models.entities.Orders;
 import com.ronnie.orders_service.models.entities.OrdersItems;
 import com.ronnie.orders_service.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -23,18 +25,21 @@ public class OrderService {
 
     public void placeOrder(OrderRequest orderRequest) {
         // Check stock and more
+        System.out.println(orderRequest);
+        System.out.println(orderRequest.getOrderItems());
         BaseResponse result =  this.webClientBuilder.build()
                 .post()
-                .uri("http://localhost:8082/api/product/inventory/in-stock")
+                .uri("http://localhost:8082/api/product/in-stock")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .bodyValue(orderRequest.getOrderItems())
                 .retrieve()
                 .bodyToMono(BaseResponse.class)
                 .block();
-
+        System.out.println(result);
         if (result != null && !result.hasError()) {
 
             Orders orders = new Orders();
-            orders.setOrderNumber(Long.valueOf(UUID.randomUUID().toString()));
+            orders.setOrderNumber(UUID.randomUUID().toString());
             orders.setOrdersItemsList(orderRequest.getOrderItems().stream()
                     .map(orderItemRequest -> mapOrderItemRequestToOrderItem(orderItemRequest, orders))
                     .toList());

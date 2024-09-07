@@ -19,7 +19,7 @@ public class InventoryService {
     public boolean isInStock(String sku) {
         var inventory = productRepository.findBySku(sku);
 
-        return inventory.filter(value -> value.getStock() > 0 || !value.getStockNecessary()).isPresent();
+        return inventory.filter(value -> value.getStock() > 0 || !value.getStockNecessary() && value.getLimitPerOrder() < inventory.get().getLimitPerOrder()).isPresent(); // poco necesario
     }
 
     public BaseResponse areInStock(List<OrderItemRequest> orderItems) {
@@ -33,10 +33,14 @@ public class InventoryService {
             var product = productList.stream().filter(value -> value.getSku().equals(orderItemRequest.getSku())).findFirst();
             if (product.isEmpty()) {
                 errorList.add("Product with sku " + orderItemRequest.getSku() + " does not exist");
-            } else if (product.get().getStock() < orderItemRequest.getQuantity()) {
+            } else if (product.get().getStock() < orderItemRequest.getQuantity() && product.get().getStockNecessary()) {
+                System.out.println(product.get());
                 errorList.add("Product with sku " + orderItemRequest.getSku() + " has insufficient quantity");
+            } else if (product.get().getLimitPerOrder() < orderItemRequest.getQuantity()) {
+                errorList.add("Product with sku " + orderItemRequest.getSku() + " push the limit");
             }
         });
+
 
         return errorList.size() > 0 ? new BaseResponse(errorList.toArray(new String[0])) : new BaseResponse(null);
     }

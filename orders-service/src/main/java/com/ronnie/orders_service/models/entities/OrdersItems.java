@@ -1,5 +1,6 @@
 package com.ronnie.orders_service.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,5 +23,6 @@ public class OrdersItems {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference
     private Orders order;
 }

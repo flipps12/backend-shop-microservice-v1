@@ -39,6 +39,7 @@ public class ProductController {
     @PostMapping(path = "/in-stock")
     @ResponseStatus(HttpStatus.OK)
     public BaseResponse areInstock(@RequestBody List<OrderItemRequest> orderItemRequests) {
+        System.out.println(orderItemRequests);
         return inventoryService.areInStock(orderItemRequests);
     }
 }

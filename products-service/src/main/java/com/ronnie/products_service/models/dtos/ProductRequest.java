@@ -16,5 +16,7 @@ public class ProductRequest {
     private String description;
     private Double price;
     private Long stock;
+    private Long limitPerOrder;
     private Boolean StockNecessary;
+    private Boolean status;
 }
