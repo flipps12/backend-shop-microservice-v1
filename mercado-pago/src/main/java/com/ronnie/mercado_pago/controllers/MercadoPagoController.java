@@ -1,6 +1,7 @@
 package com.ronnie.mercado_pago.controllers;
 
 import com.mercadopago.resources.preference.Preference;
+import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceRequest;
 import com.ronnie.mercado_pago.models.dtos.PreferenceControllerRequest;
 import com.ronnie.mercado_pago.services.MercadoPagoPreferenceService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ public class MercadoPagoController {
 
     @PostMapping("create-preference")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Preference> createPreference(@RequestBody PreferenceControllerRequest preferenceControllerRequest) {
-
-        return mercadoPagoPreferenceService.createPreference(preferenceControllerRequest);
+    public String createPreference(@RequestBody MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) {
+        System.out.println(mercadoPagoPreferenceRequest);
+        return mercadoPagoPreferenceService.createPreference(mercadoPagoPreferenceRequest);
     }
 }

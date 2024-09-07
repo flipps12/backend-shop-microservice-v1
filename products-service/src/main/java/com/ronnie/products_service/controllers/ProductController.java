@@ -4,6 +4,7 @@ import com.ronnie.products_service.models.dtos.BaseResponse;
 import com.ronnie.products_service.models.dtos.OrderItemRequest;
 import com.ronnie.products_service.models.dtos.ProductRequest;
 import com.ronnie.products_service.models.dtos.ProductResponse;
+import com.ronnie.products_service.models.entities.Product;
 import com.ronnie.products_service.services.InventoryService;
 import com.ronnie.products_service.services.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,11 @@ public class ProductController {
     @GetMapping
     public List<ProductResponse> getAllProducts() {
         return productService.getAllProducts();
+    }
+
+    @GetMapping(path = "/{sku}")
+    public Double getDataWithSku(@PathVariable("sku") String sku) {
+        return inventoryService.getDataWithSku(sku);
     }
 
     // stock

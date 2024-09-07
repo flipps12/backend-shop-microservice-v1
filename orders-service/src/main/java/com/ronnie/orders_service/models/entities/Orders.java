@@ -21,6 +21,12 @@ public class Orders {
 
     private String orderNumber;
     private String seller;
+    private String initPoint;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean paid;
+    private String email;
+    private String name;
+    private String surname;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference

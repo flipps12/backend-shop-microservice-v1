@@ -18,7 +18,6 @@ public class OrdersItems {
     private Long id;
 
     private String sku;
-    private Double price;
     private Long quantity;
 
     @ManyToOne

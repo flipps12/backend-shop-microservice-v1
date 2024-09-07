@@ -2,6 +2,8 @@ package com.ronnie.mercado_pago.services;
 
 import com.mercadopago.client.preference.*;
 import com.mercadopago.net.HttpStatus;
+import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceItemsRequest;
+import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import com.mercadopago.resources.preference.Preference;
@@ -9,26 +11,40 @@ import com.ronnie.mercado_pago.models.dtos.PreferenceControllerRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class MercadoPagoPreferenceService {
 
 
-    public ResponseEntity<Preference> createPreference(PreferenceControllerRequest preferenceControllerRequest) {
+    public String createPreference(MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) {
 
         PreferenceClient client = new PreferenceClient();
+        List<PreferenceItemRequest> itemsRequest = new ArrayList();
 
-        PreferenceItemRequest itemRequest = PreferenceItemRequest.builder()
-                .title(preferenceControllerRequest.getTitle())
-                .quantity(1)
-                .unitPrice(BigDecimal.valueOf(preferenceControllerRequest.getPrice()))
-                .description(preferenceControllerRequest.getDescription())
-                .build();
+//        PreferenceItemRequest itemRequest = PreferenceItemRequest.builder()
+//                .title()
+//                .quantity()
+//                .unitPrice(BigDecimal.valueOf())
+//                .description()
+//                .build();
 
         PreferencePayerRequest payerRequest = PreferencePayerRequest.builder()
-                .email(preferenceControllerRequest.getEmail())
+                .email("")
                 .build();
+
+        for (MercadoPagoPreferenceItemsRequest product : mercadoPagoPreferenceRequest.getItems()) {
+            PreferenceItemRequest itemRequest = PreferenceItemRequest.builder()
+                    .title(product.getTitle())
+                    .quantity(product.getQuantity().intValue())
+                    .unitPrice(BigDecimal.valueOf(product.getPrice()))
+                    .description(product.getDescription())
+                    .build();
+
+            itemsRequest.add(itemRequest);
+        }
 
         PreferenceRequest request = PreferenceRequest.builder()
                 .backUrls(PreferenceBackUrlsRequest.builder()
@@ -36,16 +52,16 @@ public class MercadoPagoPreferenceService {
                         .pending("")
                         .failure("")
                         .build())
-                .items(Collections.singletonList(itemRequest))
+                .items(itemsRequest)
                 .payer(payerRequest)
-                .externalReference(preferenceControllerRequest.getExternalReference())
+                .externalReference(mercadoPagoPreferenceRequest.getExternalReference())
                 .build();
 
         try {
             Preference preference = client.create(request);
-            return ResponseEntity.ok(preference);
+            return preference.getInitPoint();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return null;
         }
     }
 }

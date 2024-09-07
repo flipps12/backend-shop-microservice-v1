@@ -1,20 +1,22 @@
 package com.ronnie.orders_service.models.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
+@Getter
 @Builder
-public class OrderRequest {
+public class MercadoPagoPreferenceRequest {
+    private String externalReference;
+    // items
+    private List<MercadoPagoPreferenceItemsRequest> items;
 
+    // payer
     private String email;
     private String name;
     private String surname;
-    private List<OrderItemRequest> orderItems;
 }
