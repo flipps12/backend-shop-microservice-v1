@@ -1,0 +1,25 @@
+services:
+  ### Orders db
+  db-orders:
+    image: postgres
+    container_name: db-orders
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ms_orders
+      POSTGRES_USER: ronnie
+      POSTGRES_PASSWORD: Test123
+    ports:
+      - 5431:5431
+    command: -p 5431
+  ### Products db
+  db-products:
+    image: postgres
+    container_name: db-products
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ms_products
+      POSTGRES_USER: ronnie
+      POSTGRES_PASSWORD: Test123
+    ports:
+      - 5432:5432
+    command: -p 5432
