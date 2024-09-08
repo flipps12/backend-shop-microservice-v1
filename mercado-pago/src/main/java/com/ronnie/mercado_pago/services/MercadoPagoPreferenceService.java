@@ -1,9 +1,14 @@
 package com.ronnie.mercado_pago.services;
 
+import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.preference.*;
 import com.mercadopago.net.HttpStatus;
 import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceItemsRequest;
 import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceRequest;
+import com.ronnie.mercado_pago.models.entities.MercadoPagoSellers;
+import com.ronnie.mercado_pago.repositories.MercadoPagoRepository;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import com.mercadopago.resources.preference.Preference;
@@ -16,20 +21,19 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MercadoPagoPreferenceService {
 
+    private final MercadoPagoRepository mercadoPagoRepository;
+    private final String urlNotification = "https://9f9a-2800-810-48e-2b8-cd55-87d0-5ac7-c1b2.ngrok-free.app";
 
     public String createPreference(MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) {
 
+        MercadoPagoConfig.setAccessToken(mercadoPagoRepository.findBySeller(mercadoPagoPreferenceRequest.getSeller()).get().getToken());
+        System.out.println(mercadoPagoPreferenceRequest.getSeller());
+
         PreferenceClient client = new PreferenceClient();
         List<PreferenceItemRequest> itemsRequest = new ArrayList();
-
-//        PreferenceItemRequest itemRequest = PreferenceItemRequest.builder()
-//                .title()
-//                .quantity()
-//                .unitPrice(BigDecimal.valueOf())
-//                .description()
-//                .build();
 
         PreferencePayerRequest payerRequest = PreferencePayerRequest.builder()
                 .email("")
@@ -47,6 +51,7 @@ public class MercadoPagoPreferenceService {
         }
 
         PreferenceRequest request = PreferenceRequest.builder()
+                .notificationUrl(urlNotification + "/webhook")
                 .backUrls(PreferenceBackUrlsRequest.builder()
                         .success("")
                         .pending("")
@@ -61,7 +66,7 @@ public class MercadoPagoPreferenceService {
             Preference preference = client.create(request);
             return preference.getInitPoint();
         } catch (Exception e) {
-            return null;
+            throw new IllegalArgumentException(e);
         }
     }
 }

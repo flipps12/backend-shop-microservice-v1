@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 public class MercadoPagoPreferenceRequest {
     private String externalReference;
+    private String seller;
     // items
     private List<MercadoPagoPreferenceItemsRequest> items;
 

@@ -62,6 +62,7 @@ public class OrderService {
                         .email(orders.getEmail())
                         .name(orders.getName())
                         .surname(orders.getSurname())
+                        .seller(orders.getSeller())
                         .items(orders.getOrdersItemsList().stream()
                                 .map(this::mapOrderPreferencesItems)
                                 .toList())
