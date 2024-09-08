@@ -3,7 +3,7 @@
 
 
 <div align="center">
-    <img src="./readme/Diagrama2drawio.png" height="230em">
+    <img src="./readme/Diagrama2drawio.png" height="300em">
 </div>
 
 
