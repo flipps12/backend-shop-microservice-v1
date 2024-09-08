@@ -4,8 +4,10 @@ import com.ronnie.mercado_pago.models.entities.MercadoPagoSellers;
 import com.ronnie.mercado_pago.models.entities.UserIdPreference;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
-public interface MercadoPagoRepository extends JpaRepository<MercadoPagoSellers, Long> {
-    Optional<MercadoPagoSellers> findBySeller(String seller);
+public interface
+UserIdPreferenceRepository extends JpaRepository<UserIdPreference, Long> {
+    List<UserIdPreference> findByUserId(Long userId);
 }

@@ -5,6 +5,7 @@ import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceRequest;
 import com.ronnie.mercado_pago.models.dtos.PreferenceControllerRequest;
 import com.ronnie.mercado_pago.services.MercadoPagoPreferenceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/mercado-pago")
 @RequiredArgsConstructor
 public class MercadoPagoController {
+
+    private static final String SECRET_KEY = "TU_CLAVE_SECRETA";
 
     private final MercadoPagoPreferenceService mercadoPagoPreferenceService;
 

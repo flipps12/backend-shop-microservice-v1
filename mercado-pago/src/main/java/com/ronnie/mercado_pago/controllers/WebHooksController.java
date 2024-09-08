@@ -1,11 +1,12 @@
 package com.ronnie.mercado_pago.controllers;
 
+import com.ronnie.mercado_pago.services.MercadoPagoPreferenceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
@@ -13,12 +14,28 @@ import java.util.Map;
 @RequestMapping("/webhook")
 @RequiredArgsConstructor
 public class WebHooksController {
-    @PostMapping
-    public ResponseEntity<String> handleWebhook(@RequestBody Map<String, Object> payload) {
-        // Procesa la notificación recibida
-        System.out.println("Received webhook: " + payload);
+    private final MercadoPagoPreferenceService mercadoPagoPreferenceService;
 
-        // Devuelve una respuesta 200 OK a Mercado Pago
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<String> handleWebhook(@RequestBody Map<String, Object> payload, @RequestHeader HttpHeaders headers) {
+        String topic = (String) payload.get("type");
+
+        if ("payment".equals(topic)) {
+            System.out.println(payload);
+            Map<String, Object> data = (Map<String, Object>) payload.get("data");
+            if (data != null) {
+                String dataId = (String) data.get("id");
+                if (dataId != null) {
+                    return mercadoPagoPreferenceService.processPayment(dataId, Long.valueOf((String) payload.get("user_id")));
+                } else {
+                    return ResponseEntity.status(400).body("Missing data.id");
+                }
+            } else {
+                return ResponseEntity.status(400).body("Missing data object");
+            }
+        }
+
         return ResponseEntity.ok("Received");
     }
 }

@@ -6,7 +6,9 @@ import com.mercadopago.net.HttpStatus;
 import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceItemsRequest;
 import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceRequest;
 import com.ronnie.mercado_pago.models.entities.MercadoPagoSellers;
+import com.ronnie.mercado_pago.models.entities.UserIdPreference;
 import com.ronnie.mercado_pago.repositories.MercadoPagoRepository;
+import com.ronnie.mercado_pago.repositories.UserIdPreferenceRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,23 +16,25 @@ import org.springframework.http.ResponseEntity;
 import com.mercadopago.resources.preference.Preference;
 import com.ronnie.mercado_pago.models.dtos.PreferenceControllerRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class MercadoPagoPreferenceService {
 
     private final MercadoPagoRepository mercadoPagoRepository;
-    private final String urlNotification = "https://9f9a-2800-810-48e-2b8-cd55-87d0-5ac7-c1b2.ngrok-free.app";
+    private final UserIdPreferenceRepository userIdPreferenceRepository;
+    private final String urlNotification = "https://a984-2800-810-48e-2b8-903d-2f5-225f-18b6.ngrok-free.app";
 
     public String createPreference(MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) {
+        String secretToken = mercadoPagoRepository.findBySeller(mercadoPagoPreferenceRequest.getSeller()).get().getToken();
 
-        MercadoPagoConfig.setAccessToken(mercadoPagoRepository.findBySeller(mercadoPagoPreferenceRequest.getSeller()).get().getToken());
-        System.out.println(mercadoPagoPreferenceRequest.getSeller());
+        MercadoPagoConfig.setAccessToken(secretToken);
 
         PreferenceClient client = new PreferenceClient();
         List<PreferenceItemRequest> itemsRequest = new ArrayList();
@@ -64,9 +68,42 @@ public class MercadoPagoPreferenceService {
 
         try {
             Preference preference = client.create(request);
+            System.out.println("preference: " + preference.getCollectorId());
+//            if (userIdPreferenceRepository.findByUserId(preference.getCollectorId()).stream().findFirst().get().getToken() == secretToken) {
+//                userIdPreferenceRepository.save(UserIdPreference.builder()
+//                    .token(secretToken)
+//                    .userId(preference.getCollectorId())
+//                    .build());
+//            }
+
+            userIdPreferenceRepository.save(UserIdPreference.builder()
+                    .token(secretToken)
+                    .userId(preference.getCollectorId())
+                    .build());
             return preference.getInitPoint();
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
+    }
+
+    public ResponseEntity<String> processPayment(String dataId, Long userId) {
+        List<UserIdPreference> secretTokens = userIdPreferenceRepository.findByUserId(userId);
+
+        String url = "https://api.mercadopago.com/v1/payments/" + dataId + "?access_token=" + secretTokens.getFirst().getToken();
+
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            Map<String, Object> paymentDetails = restTemplate.getForObject(url, Map.class);
+
+            // Procesa los detalles del pago
+            System.out.println("Payment details: " + paymentDetails);
+
+            // Aquí puedes agregar lógica adicional para validar y procesar el pago
+            return ResponseEntity.ok("Payment processed");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error processing payment");
+        }
+
     }
 }
