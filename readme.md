@@ -2,7 +2,7 @@
 
 
 
-<div align="center" height="90em">
+<div align="center" height="70em">
     <img src="./readme/Diagrama2drawio.png">
 </div>
 
