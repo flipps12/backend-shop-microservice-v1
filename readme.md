@@ -2,8 +2,8 @@
 
 
 
-<div align="center" height="70em">
-    <img src="./readme/Diagrama2drawio.png">
+<div align="center">
+    <img src="./readme/Diagrama2drawio.png" height="140em">
 </div>
 
 
