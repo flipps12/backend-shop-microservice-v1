@@ -23,6 +23,7 @@ services:
     ports:
       - 5432:5432
     command: -p 5432
+  ### Tokens db
   db-mp:
     image: postgres
     container_name: db-mp

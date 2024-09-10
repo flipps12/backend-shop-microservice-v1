@@ -29,7 +29,7 @@ public class MercadoPagoPreferenceService {
 
     private final MercadoPagoRepository mercadoPagoRepository;
     private final UserIdPreferenceRepository userIdPreferenceRepository;
-    private final String urlNotification = "https://a984-2800-810-48e-2b8-903d-2f5-225f-18b6.ngrok-free.app";
+    private final String urlNotification = "https://12d6-2800-810-48e-2b8-2c9e-2604-4675-ada6.ngrok-free.app";
 
     public String createPreference(MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) {
         String secretToken = mercadoPagoRepository.findBySeller(mercadoPagoPreferenceRequest.getSeller()).get().getToken();
