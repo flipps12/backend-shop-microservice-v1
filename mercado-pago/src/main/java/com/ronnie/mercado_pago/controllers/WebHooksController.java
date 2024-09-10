@@ -21,8 +21,8 @@ public class WebHooksController {
     public ResponseEntity<String> handleWebhook(@RequestBody Map<String, Object> payload, @RequestHeader HttpHeaders headers) {
         String topic = (String) payload.get("type");
 
+
         if ("payment".equals(topic)) {
-            System.out.println(payload);
             Map<String, Object> data = (Map<String, Object>) payload.get("data");
             if (data != null) {
                 String dataId = (String) data.get("id");

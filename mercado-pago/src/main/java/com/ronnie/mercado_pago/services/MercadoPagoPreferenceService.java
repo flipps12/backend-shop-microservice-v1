@@ -11,6 +11,7 @@ import com.ronnie.mercado_pago.repositories.MercadoPagoRepository;
 import com.ronnie.mercado_pago.repositories.UserIdPreferenceRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.digest.HmacUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import com.mercadopago.resources.preference.Preference;
@@ -68,7 +69,7 @@ public class MercadoPagoPreferenceService {
 
         try {
             Preference preference = client.create(request);
-            System.out.println("preference: " + preference.getCollectorId());
+            System.out.println("preference: " + preference.getClientId());
 //            if (userIdPreferenceRepository.findByUserId(preference.getCollectorId()).stream().findFirst().get().getToken() == secretToken) {
 //                userIdPreferenceRepository.save(UserIdPreference.builder()
 //                    .token(secretToken)
@@ -89,7 +90,7 @@ public class MercadoPagoPreferenceService {
     public ResponseEntity<String> processPayment(String dataId, Long userId) {
         List<UserIdPreference> secretTokens = userIdPreferenceRepository.findByUserId(userId);
 
-        String url = "https://api.mercadopago.com/v1/payments/" + dataId + "?access_token=" + secretTokens.getFirst().getToken();
+        String url = "https://api.mercadopago.com/v1/payments/" + dataId + "?access_token=" + secretTokens.get(secretTokens.size() - 1).getToken();
 
         RestTemplate restTemplate = new RestTemplate();
         try {
