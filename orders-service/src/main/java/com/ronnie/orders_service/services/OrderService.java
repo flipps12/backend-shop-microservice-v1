@@ -22,6 +22,33 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
 
+    public String resetStatus(String reference) {
+        try {
+            Orders order = orderRepository.findByOrderNumber(reference).orElseThrow(() -> new IllegalArgumentException("Order not found"));
+            order.setPaid(true);
+            orderRepository.save(order);
+
+            // Procesar con email
+
+            return "Lista editada";
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public String resetDevoted(String reference) {
+        try {
+            Orders order = orderRepository.findByOrderNumber(reference).orElseThrow(() -> new IllegalArgumentException("Order not found"));
+            order.setDevoted(true);
+            orderRepository.save(order);
+
+            // Procesar con email
+
+            return "Lista editada";
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 
     public String placeOrder(OrderRequest orderRequest) {
         // Check stock and more
@@ -44,6 +71,7 @@ public class OrderService {
             orders.setOrderNumber(UUID.randomUUID().toString());
             orders.setSeller(orderRequest.getOrderItems().getFirst().getSeller());
             orders.setPaid(false);
+            orders.setDevoted(false);
             orders.setEmail(orderRequest.getEmail());
             orders.setName(orderRequest.getName());
             orders.setSurname(orderRequest.getSurname());

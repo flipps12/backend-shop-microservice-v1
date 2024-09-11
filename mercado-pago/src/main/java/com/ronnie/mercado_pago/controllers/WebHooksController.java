@@ -22,6 +22,8 @@ public class WebHooksController {
 
         String topic = (String) payload.get("type");
 
+        // agregar verificado de token
+
         if ("payment".equals(topic)) {
             Map<String, Object> data = (Map<String, Object>) payload.get("data");
             if (data != null) {

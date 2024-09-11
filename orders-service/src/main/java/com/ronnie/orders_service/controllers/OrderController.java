@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/order")
@@ -29,4 +30,12 @@ public class OrderController {
     public String placeOrder(@RequestBody OrderRequest orderRequest) {
         return orderService.placeOrder(orderRequest);
     }
+
+    @PostMapping(path = "/setStatus")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public String processPayment(@RequestBody Map<String, Object> payment) {
+        return orderService.resetStatus((String) payment.get("external_reference"));
+    }
+
+    // devoted edit
 }

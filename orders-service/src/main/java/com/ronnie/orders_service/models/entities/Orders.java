@@ -24,6 +24,8 @@ public class Orders {
     private String initPoint;
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean paid;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean devoted;
     private String email;
     private String name;
     private String surname;
