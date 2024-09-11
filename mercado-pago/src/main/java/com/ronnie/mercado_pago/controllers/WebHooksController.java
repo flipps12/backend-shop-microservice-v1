@@ -11,23 +11,23 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/webhook")
+@RequestMapping("/webhook/{seller}")
 @RequiredArgsConstructor
 public class WebHooksController {
     private final MercadoPagoPreferenceService mercadoPagoPreferenceService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> handleWebhook(@RequestBody Map<String, Object> payload, @RequestHeader HttpHeaders headers) {
-        String topic = (String) payload.get("type");
+    public ResponseEntity<String> handleWebhook(@PathVariable("seller") String seller, @RequestBody Map<String, Object> payload, @RequestHeader HttpHeaders headers) {
 
+        String topic = (String) payload.get("type");
 
         if ("payment".equals(topic)) {
             Map<String, Object> data = (Map<String, Object>) payload.get("data");
             if (data != null) {
                 String dataId = (String) data.get("id");
                 if (dataId != null) {
-                    return mercadoPagoPreferenceService.processPayment(dataId, Long.valueOf((String) payload.get("user_id")));
+                    return mercadoPagoPreferenceService.processPayment(dataId, seller);
                 } else {
                     return ResponseEntity.status(400).body("Missing data.id");
                 }
