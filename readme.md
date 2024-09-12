@@ -3,13 +3,13 @@
 
 
 <div align="center">
-    <img src="./readme/Diagrama2drawio.png" height="300em">
+    <img src="./readme/Diagrama3drawio.png" height="300em">
 </div>
 
 
 <h3>Microservices:</h3>
 
-- API Gateway ❌
+- API Gateway ✅
 - Mercado-Pago service ✅
 - Orders service ✅
 - Products service ✅
