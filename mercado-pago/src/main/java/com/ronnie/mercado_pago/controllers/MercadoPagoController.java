@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MercadoPagoController {
 
-    private static final String SECRET_KEY = "TU_CLAVE_SECRETA";
-
     private final MercadoPagoPreferenceService mercadoPagoPreferenceService;
 
     @PostMapping("create-preference")

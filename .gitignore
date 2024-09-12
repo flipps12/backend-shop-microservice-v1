@@ -36,3 +36,6 @@ ngrok.exe
 
 ### docker file
 api-gateway/dockerfile
+mercado-pago/dockerfile
+orders-service/dockerfile
+products-service/dockerfile
