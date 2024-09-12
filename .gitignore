@@ -33,3 +33,6 @@ build/
 .vscode/
 
 ngrok.exe
+
+### docker file
+api-gateway/dockerfile
