@@ -19,10 +19,16 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderRepository orderRepository;
 
-    @GetMapping
+    @GetMapping // ver todos las ordenes
     @ResponseStatus(HttpStatus.OK)
     public List<Orders> getOrders() {
         return orderRepository.findAll();
+    }
+
+    @GetMapping("/{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Orders> getOrdersBySeller(@PathVariable("name") String name) {
+        return orderService.getOrdersBySeller(name);
     }
 
     @PostMapping

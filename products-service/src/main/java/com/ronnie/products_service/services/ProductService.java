@@ -28,6 +28,7 @@ public class ProductService {
                 .limitPerOrder(productRequest.getLimitPerOrder())
                 .StockNecessary(productRequest.getStockNecessary())
                 .status(false)
+                .pictureUrl(productRequest.getPictureUrl())
                 .build();
 
         productRepository.save(product);
@@ -36,7 +37,6 @@ public class ProductService {
 
     public List<ProductResponse> getAllProducts() {
         var products = productRepository.findAll();
-        System.out.println(products);
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
@@ -52,6 +52,7 @@ public class ProductService {
                 .limitPerOrder(product.getLimitPerOrder())
                 .StockNecessary(product.getStockNecessary())
                 .status(product.getStatus())
+                .pictureUrl(product.getPictureUrl())
                 .build();
     }
 }

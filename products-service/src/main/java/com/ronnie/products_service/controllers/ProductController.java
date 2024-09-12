@@ -21,28 +21,28 @@ public class ProductController {
     private final ProductService productService;
     private final InventoryService inventoryService;
 
-    @PostMapping
+    @PostMapping // crear productos
     public void addProduct(@RequestBody ProductRequest productRequest) {
         productService.addProduct(productRequest);
     }
 
-    @GetMapping
+    @GetMapping // ver todos los productos
     public List<ProductResponse> getAllProducts() {
         return productService.getAllProducts();
     }
 
-    @GetMapping(path = "/{sku}")
-    public Double getDataWithSku(@PathVariable("sku") String sku) {
+    @GetMapping(path = "/{sku}") // conseguir un producto solo con SKU
+    public Product getDataWithSku(@PathVariable("sku") String sku) {
         return inventoryService.getDataWithSku(sku);
     }
 
     // stock
-    @GetMapping(path = "/stock/{sku}")
+    @GetMapping(path = "/stock/{sku}") // si esta en stock
     public boolean isInStock(@PathVariable("sku") String sku) {
         return inventoryService.isInStock(sku);
     }
 
-    @PostMapping(path = "/in-stock")
+    @PostMapping(path = "/in-stock") // si esta(n) en stock
     @ResponseStatus(HttpStatus.OK)
     public BaseResponse areInstock(@RequestBody List<OrderItemRequest> orderItemRequests) {
         System.out.println(orderItemRequests);

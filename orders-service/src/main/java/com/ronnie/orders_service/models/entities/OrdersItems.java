@@ -19,6 +19,7 @@ public class OrdersItems {
 
     private String sku;
     private Long quantity;
+    private String pictureUrl;
 
     @ManyToOne
     @JoinColumn(name = "order_id")

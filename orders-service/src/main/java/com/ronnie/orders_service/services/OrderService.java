@@ -28,6 +28,8 @@ public class OrderService {
             order.setPaid(true);
             orderRepository.save(order);
 
+            // Bajar nivel de stock auto?
+
             // Procesar con email
 
             return "Lista editada";
@@ -107,12 +109,24 @@ public class OrderService {
         }
     }
 
+    // conseguir ordenes por nombre
+
+    public List<Orders> getOrdersBySeller(String seller) {
+        List<Orders> ordenes = orderRepository.findBySeller(seller);
+        return ordenes;
+    }
+
+    // -- funciones secundarias
+
     private MercadoPagoPreferenceItemsRequest mapOrderPreferencesItems(OrdersItems ordersItemsPreference) {
+        Product dataProduct = getProductData(ordersItemsPreference.getSku());
         return MercadoPagoPreferenceItemsRequest.builder()
-                .title("Codigo de orden: " + ordersItemsPreference.getSku())
-                .price(getPrice(ordersItemsPreference.getSku()))
+                .id(String.valueOf(dataProduct.getId()))
+                .title(dataProduct.getName())
+                .price(dataProduct.getPrice()) // pasasr a doublew
                 .quantity(ordersItemsPreference.getQuantity())
-                .description("")
+                .description(dataProduct.getDescription())
+                .pictureUrl(dataProduct.getPictureUrl())
                 .build();
     }
 
@@ -125,12 +139,12 @@ public class OrderService {
                 .build();
     }
 
-    private Double getPrice(String sku) {
+    private Product getProductData(String sku) {
         return webClientBuilder.build() // peticion checkear stock
                 .get()
                 .uri("http://localhost:8082/api/product/" + sku)
                 .retrieve()
-                .bodyToMono(Double.class)
+                .bodyToMono(Product.class)
                 .block();
     }
 }

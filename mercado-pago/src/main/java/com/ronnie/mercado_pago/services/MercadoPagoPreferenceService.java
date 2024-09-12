@@ -26,7 +26,7 @@ public class MercadoPagoPreferenceService {
 
     private final MercadoPagoRepository mercadoPagoRepository;
     private final WebClient.Builder webClientBuilder;
-    private final String urlNotification = "https://dcdb-2800-810-48e-2b8-913f-e414-acfc-410d.ngrok-free.app";
+    private final String urlNotification = "https://168c-2800-810-48e-2b8-fd3c-241f-6538-4a83.ngrok-free.app";
 
     public String createPreference(MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) {
         String secretToken = mercadoPagoRepository.findBySeller(mercadoPagoPreferenceRequest.getSeller()).get().getToken();
@@ -42,10 +42,13 @@ public class MercadoPagoPreferenceService {
 
         for (MercadoPagoPreferenceItemsRequest product : mercadoPagoPreferenceRequest.getItems()) {
             PreferenceItemRequest itemRequest = PreferenceItemRequest.builder()
+                    .id(product.getId())
                     .title(product.getTitle())
                     .quantity(product.getQuantity().intValue())
                     .unitPrice(BigDecimal.valueOf(product.getPrice()))
                     .description(product.getDescription())
+                    .currencyId("ARS")
+                    .pictureUrl(product.getPictureUrl())
                     .build();
 
             itemsRequest.add(itemRequest);
@@ -54,9 +57,9 @@ public class MercadoPagoPreferenceService {
         PreferenceRequest request = PreferenceRequest.builder()
                 .notificationUrl(urlNotification + "/webhook/" + mercadoPagoPreferenceRequest.getSeller())
                 .backUrls(PreferenceBackUrlsRequest.builder()
-                        .success("")
-                        .pending("")
-                        .failure("")
+                        .success("/success")
+                        .pending("/pending")
+                        .failure("/failure")
                         .build())
                 .items(itemsRequest)
                 .payer(payerRequest)

@@ -10,8 +10,10 @@ import lombok.*;
 @Builder
 public class MercadoPagoPreferenceItemsRequest {
     // items
+    private String id;
     private String title;
     private Double price;
     private String description;
+    private String pictureUrl;
     private Long quantity;
 }

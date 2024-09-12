@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +21,13 @@ public class InventoryService {
     public boolean isInStock(String sku) {
         var inventory = productRepository.findBySku(sku);
 
-        return inventory.filter(value -> value.getStock() > 0 || !value.getStockNecessary() && value.getLimitPerOrder() < inventory.get().getLimitPerOrder()).isPresent(); // poco necesario
+        return inventory.filter(value -> {
+            if (value.getStock() > 0) return true;
+            if (!value.getStockNecessary()) {
+                inventory.get();
+            }
+            return false;
+        }).isPresent(); // poco necesario
     }
 
     public BaseResponse areInStock(List<OrderItemRequest> orderItems) {
@@ -43,11 +50,11 @@ public class InventoryService {
         });
 
 
-        return errorList.size() > 0 ? new BaseResponse(errorList.toArray(new String[0])) : new BaseResponse(null);
+        return !errorList.isEmpty() ? new BaseResponse(errorList.toArray(new String[0])) : new BaseResponse(null);
     }
 
-    public Double getDataWithSku(String sku) {
-        var product = productRepository.findBySku(sku).get();
-        return product.getPrice();
+    public Product getDataWithSku(String sku) {
+        Optional<Product> product = productRepository.findBySku(sku);
+        return product.orElse(null);
     }
 }

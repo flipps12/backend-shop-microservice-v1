@@ -21,6 +21,7 @@ public class Product {
     private Long stock;
     private Boolean StockNecessary;
     private Boolean status;
+    private String pictureUrl;
 
     @Override
     public String toString() {

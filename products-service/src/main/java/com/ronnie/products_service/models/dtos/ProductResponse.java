@@ -20,4 +20,5 @@ public class ProductResponse {
     private Long limitPerOrder;
     private Boolean StockNecessary;
     private Boolean status;
+    private String pictureUrl;
 }
