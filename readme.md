@@ -13,6 +13,7 @@
 - Mercado-Pago service ✅
 - Orders service ✅
 - Products service ✅
+- Multimedia service ❌
 - Notification service ❌
 
 <h3>Databases PostgreSQL</h3>
