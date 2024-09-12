@@ -27,12 +27,14 @@
 		<url/>
 	</scm>
 	<properties>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
 		<maven.compiler.source>22</maven.compiler.source>
 		<maven.compiler.target>22</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<modules>
+		<module>api-gateway</module>
 		<module>orders-service</module>
 		<module>products-service</module>
 		<module>mercado-pago</module>
@@ -41,6 +43,18 @@
 	<dependencies>
 
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>
