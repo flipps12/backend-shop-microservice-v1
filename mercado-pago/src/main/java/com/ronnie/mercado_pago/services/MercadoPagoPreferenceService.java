@@ -6,6 +6,7 @@ import com.mercadopago.net.HttpStatus;
 import com.mercadopago.resources.payment.Payment;
 import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceItemsRequest;
 import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceRequest;
+import com.ronnie.mercado_pago.models.entities.MercadoPagoSellers;
 import com.ronnie.mercado_pago.repositories.MercadoPagoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -26,12 +27,13 @@ public class MercadoPagoPreferenceService {
 
     private final MercadoPagoRepository mercadoPagoRepository;
     private final WebClient.Builder webClientBuilder;
-    private final String urlNotification = "https://168c-2800-810-48e-2b8-fd3c-241f-6538-4a83.ngrok-free.app";
+    private final String urlNotification = "https://a51b-2800-810-48e-2b8-fd3c-241f-6538-4a83.ngrok-free.app";
 
     public String createPreference(MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) {
-        String secretToken = mercadoPagoRepository.findBySeller(mercadoPagoPreferenceRequest.getSeller()).get().getToken();
+        Optional<MercadoPagoSellers> secretToken = mercadoPagoRepository.findBySeller(mercadoPagoPreferenceRequest.getSeller());
+        if (secretToken.isEmpty()) return "seller unknown";
 
-        MercadoPagoConfig.setAccessToken(secretToken);
+        MercadoPagoConfig.setAccessToken(secretToken.get().getToken());
 
         PreferenceClient client = new PreferenceClient();
         List<PreferenceItemRequest> itemsRequest = new ArrayList();
@@ -93,7 +95,7 @@ public class MercadoPagoPreferenceService {
 
             String setStatus = webClientBuilder.build() // mejorar peticion, etc
                     .post()
-                    .uri("http://localhost:8081/api/order/setStatus")
+                    .uri("http://localhost:8080/api/order/setStatus")
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .bodyValue(paymentDetails)
                     .retrieve()
