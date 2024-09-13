@@ -1,8 +1,8 @@
 package com.ronnie.products_service.services;
 
-import com.ronnie.products_service.models.dtos.ProductRequest;
-import com.ronnie.products_service.models.dtos.ProductResponse;
-import com.ronnie.products_service.models.entities.Product;
+import com.ronnie.products_service.entities.dtos.ProductRequest;
+import com.ronnie.products_service.entities.dtos.ProductResponse;
+import com.ronnie.products_service.entities.models.Product;
 import com.ronnie.products_service.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

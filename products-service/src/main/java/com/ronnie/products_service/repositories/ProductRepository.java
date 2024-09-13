@@ -1,6 +1,6 @@
 package com.ronnie.products_service.repositories;
 
-import com.ronnie.products_service.models.entities.Product;
+import com.ronnie.products_service.entities.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

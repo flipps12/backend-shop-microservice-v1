@@ -38,6 +38,7 @@
 		<module>orders-service</module>
 		<module>products-service</module>
 		<module>mercado-pago</module>
+		<module>authenticator</module>
 	</modules>
 
 	<dependencies>

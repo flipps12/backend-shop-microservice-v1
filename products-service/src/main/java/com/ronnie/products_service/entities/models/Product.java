@@ -1,4 +1,4 @@
-package com.ronnie.products_service.models.entities;
+package com.ronnie.products_service.entities.models;
 
 import jakarta.persistence.*;
 import lombok.*;

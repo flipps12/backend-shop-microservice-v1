@@ -1,4 +1,4 @@
-package com.ronnie.products_service.models.dtos;
+package com.ronnie.products_service.entities.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

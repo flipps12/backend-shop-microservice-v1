@@ -1,11 +1,10 @@
 package com.ronnie.products_service.services;
 
-import com.ronnie.products_service.models.dtos.BaseResponse;
-import com.ronnie.products_service.models.dtos.OrderItemRequest;
-import com.ronnie.products_service.models.entities.Product;
+import com.ronnie.products_service.entities.dtos.BaseResponse;
+import com.ronnie.products_service.entities.dtos.OrderItemRequest;
+import com.ronnie.products_service.entities.models.Product;
 import com.ronnie.products_service.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

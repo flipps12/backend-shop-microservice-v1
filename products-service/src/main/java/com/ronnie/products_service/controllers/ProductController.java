@@ -1,10 +1,10 @@
 package com.ronnie.products_service.controllers;
 
-import com.ronnie.products_service.models.dtos.BaseResponse;
-import com.ronnie.products_service.models.dtos.OrderItemRequest;
-import com.ronnie.products_service.models.dtos.ProductRequest;
-import com.ronnie.products_service.models.dtos.ProductResponse;
-import com.ronnie.products_service.models.entities.Product;
+import com.ronnie.products_service.entities.dtos.BaseResponse;
+import com.ronnie.products_service.entities.dtos.OrderItemRequest;
+import com.ronnie.products_service.entities.dtos.ProductRequest;
+import com.ronnie.products_service.entities.dtos.ProductResponse;
+import com.ronnie.products_service.entities.models.Product;
 import com.ronnie.products_service.services.InventoryService;
 import com.ronnie.products_service.services.ProductService;
 import lombok.RequiredArgsConstructor;
