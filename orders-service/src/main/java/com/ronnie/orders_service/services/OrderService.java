@@ -21,6 +21,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
+    private final MailService mailService;
 
     public String resetStatus(String reference) {
         try {
@@ -100,9 +101,15 @@ public class OrderService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-            System.out.println(resultInitPoint);
+            // System.out.println(resultInitPoint);
             orders.setInitPoint(resultInitPoint);
             orderRepository.save(orders);
+
+            // mandar por mail
+            System.out.println(mailService.sendMail(orderRequest.getEmail(),
+                    "Pedido de compra creado",
+                    "Link de pago: " + resultInitPoint)); // cambiar por HTML
+
             return resultInitPoint;
         } else {
             throw new IllegalArgumentException("Sin stock");

@@ -27,7 +27,7 @@ public class MercadoPagoPreferenceService {
 
     private final MercadoPagoRepository mercadoPagoRepository;
     private final WebClient.Builder webClientBuilder;
-    private final String urlNotification = "https://a51b-2800-810-48e-2b8-fd3c-241f-6538-4a83.ngrok-free.app";
+    private final String urlNotification = "https://2609-2800-810-48e-2b8-d585-f9d7-1bff-3162.ngrok-free.app";
 
     public String createPreference(MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) {
         Optional<MercadoPagoSellers> secretToken = mercadoPagoRepository.findBySeller(mercadoPagoPreferenceRequest.getSeller());
