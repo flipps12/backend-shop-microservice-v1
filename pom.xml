@@ -39,6 +39,7 @@
 		<module>products-service</module>
 		<module>mercado-pago</module>
 		<module>authenticator</module>
+		<module>notification-service</module>
 	</modules>
 
 	<dependencies>
