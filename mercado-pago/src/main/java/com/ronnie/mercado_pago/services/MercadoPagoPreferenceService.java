@@ -23,7 +23,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class MercadoPagoPreferenceService {
+public class MercadoPagoPreferenceService {  // CAMBIAR la base de datos por la de Authentication service (idea)
 
     private final MercadoPagoRepository mercadoPagoRepository;
     private final WebClient.Builder webClientBuilder;
