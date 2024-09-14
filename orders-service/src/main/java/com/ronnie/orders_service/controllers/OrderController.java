@@ -25,19 +25,20 @@ public class OrderController {
         return orderRepository.findAll();
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/{name}") // conseguir ordenes por vendedor
     @ResponseStatus(HttpStatus.OK)
     public List<Orders> getOrdersBySeller(@PathVariable("name") String name) {
         return orderService.getOrdersBySeller(name);
     }
 
-    @PostMapping
+    @PostMapping // crear orden
     @ResponseStatus(HttpStatus.OK)
     public String placeOrder(@RequestBody OrderRequest orderRequest) {
         return orderService.placeOrder(orderRequest);
     }
 
-    @PostMapping(path = "/setStatus")
+    // PROTEGER con spring security
+    @PostMapping(path = "/setStatus") // marcar como pagado
     @ResponseStatus(HttpStatus.ACCEPTED)
     public String processPayment(@RequestBody Map<String, Object> payment) {
         return orderService.resetStatus((String) payment.get("external_reference"));
