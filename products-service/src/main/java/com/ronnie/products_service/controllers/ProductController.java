@@ -21,16 +21,6 @@ public class ProductController {
     private final ProductService productService;
     private final InventoryService inventoryService;
 
-    @PostMapping // crear productos
-    public void addProduct(@RequestBody ProductRequest productRequest) {
-        productService.addProduct(productRequest);
-    }
-
-    @GetMapping // ver todos los productos
-    public List<ProductResponse> getAllProducts() {
-        return productService.getAllProducts();
-    }
-
     @GetMapping(path = "/{sku}") // conseguir un producto solo con SKU
     public Product getDataWithSku(@PathVariable("sku") String sku) {
         return inventoryService.getDataWithSku(sku);

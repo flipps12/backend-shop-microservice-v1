@@ -34,4 +34,9 @@ public class AuthController {
     public String createJwt(@PathVariable String username, @PathVariable String role) {
         return authService.createJwt(username, role);
     }
+
+    @GetMapping("/extract/{cookie}")
+    public String extractJwt(@PathVariable String cookie) {
+        return authService.extractClaims(cookie);
+    }
 }

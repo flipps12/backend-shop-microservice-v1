@@ -55,4 +55,10 @@ public class AuthService {
         }
         return false;
     }
+
+    public String extractClaims(String cookie) {
+        return sellersRepository.findByUsername(jwtUtil.extractUsername(cookie))
+                .get().getRole();
+    }
+
 }
