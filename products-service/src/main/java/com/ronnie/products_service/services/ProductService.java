@@ -40,6 +40,13 @@ public class ProductService {
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
+    public List<ProductResponse> getProducts(String name) {
+        System.out.println(name);
+        var products = productRepository.findBySeller(name);
+        System.out.println(products);
+        return products.stream().map(this::mapToProductResponse).toList();
+    }
+
     private ProductResponse mapToProductResponse(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())

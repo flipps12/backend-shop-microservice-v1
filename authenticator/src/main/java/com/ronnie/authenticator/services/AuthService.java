@@ -22,23 +22,25 @@ public class AuthService {
     private final AESUtil aesUtil;
 
 
-    public String createJwt(String username, String role) {
-        // añadir role por base de datos
-        if (sellersRepository.findByUsername(username).isEmpty()) throw new IllegalArgumentException("El usuario no existe");
-        return jwtUtil.generateToken(username, role);
+    public String createJwt(String username, String password) {
+        var user = sellersRepository.findByUsername(username);
+        if (user.isEmpty()) throw new IllegalArgumentException("El usuario no existe");
+        String roleDb = user.get().getRole();
+
+        return jwtUtil.generateToken(username, roleDb);
     }
 
     public Boolean authWithJwt(String jwt, String username) {
         return jwtUtil.validateToken(jwt, username);
     }
 
-    public boolean login(UserLoginRequest userLoginRequest) throws Exception { // login con encriptacion
+    public String login(UserLoginRequest userLoginRequest) throws Exception { // login con encriptacion
         Optional<User> user = sellersRepository.findByUsername(userLoginRequest.getUsername());
-        if (user.isEmpty()) return false;
+        if (user.isEmpty()) return "user";
 
         String decrypted = AESUtil.decrypt(user.get().getPassword());
-        if (decrypted.equals(userLoginRequest.getPassword())) return true;
-        return false;
+        if (decrypted.equals(userLoginRequest.getPassword())) return createJwt(userLoginRequest.getUsername(), userLoginRequest.getPassword());
+        return "password";
     }
 
     public boolean register(String jwt, UserRegisterRequest userRegisterRequest) { // crear usuario si tenes un jwt especifico
@@ -61,4 +63,8 @@ public class AuthService {
                 .get().getRole();
     }
 
+    public String extractClaimsUsername(String cookie) {
+        return sellersRepository.findByUsername(jwtUtil.extractUsername(cookie))
+                .get().getUsername();
+    }
 }

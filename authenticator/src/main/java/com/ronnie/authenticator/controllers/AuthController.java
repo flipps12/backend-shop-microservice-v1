@@ -15,7 +15,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping
-    public boolean login(@RequestBody UserLoginRequest userLoginRequest) throws Exception {
+    public String login(@RequestBody UserLoginRequest userLoginRequest) throws Exception {
         return authService.login(userLoginRequest);
     }
 
@@ -29,14 +29,19 @@ public class AuthController {
         return authService.authWithJwt(jwt, username);
     }
 
-    // proteger por spring secutity
-    @GetMapping("/generate/{username}/{role}")
-    public String createJwt(@PathVariable String username, @PathVariable String role) {
-        return authService.createJwt(username, role);
-    }
+    // proteger por spring secutity o agregar password para autenticar aca direto
+//    @GetMapping("/generate/{username}/{password}")
+//    public String createJwt(@PathVariable String username, @PathVariable String password) {
+//        return authService.createJwt(username, password);
+//    }
 
     @GetMapping("/extract/{cookie}")
     public String extractJwt(@PathVariable String cookie) {
         return authService.extractClaims(cookie);
+    }
+
+    @GetMapping("/extract/username/{cookie}")
+    public String extractJwtUsername(@PathVariable String cookie) {
+        return authService.extractClaimsUsername(cookie);
     }
 }

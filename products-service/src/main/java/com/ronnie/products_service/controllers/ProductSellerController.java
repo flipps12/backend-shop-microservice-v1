@@ -49,4 +49,21 @@ public class ProductSellerController {
         return null;
     }
 
+    @GetMapping("/products") // ver todos los productos
+    public List<ProductResponse> getProducts(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+
+        System.out.println("hola");
+        if (cookies == null) throw new IllegalArgumentException("Sin cookies");
+        for (Cookie cookie : cookies) {
+            System.out.println("b");
+            if (cookie.getName().equals("jwt")) {
+                System.out.println("a");
+                String username = productSellerService.viewUsername(cookie.getValue());
+                return productService.getProducts(username); // auth de cookie
+            }
+        }
+        return null;
+    }
+
 }

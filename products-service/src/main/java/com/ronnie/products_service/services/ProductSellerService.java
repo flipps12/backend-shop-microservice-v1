@@ -22,4 +22,15 @@ public class ProductSellerService {
         if (result.equals("seller") || result.equals("admin")) return true; // cambiar solo admin o admin y sellers
         return false;
     }
+
+    public String viewUsername(String cookie) {
+        String result =  this.webClientBuilder.build() // conseguir username
+                .get()
+                .uri("http://localhost:8080/api/auth/extract/username/" + cookie)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        return result;
+    }
 }
