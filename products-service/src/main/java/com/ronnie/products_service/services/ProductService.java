@@ -60,4 +60,14 @@ public class ProductService {
                 .pictureUrl(product.getPictureUrl())
                 .build();
     }
+
+    public String deleteProduct(String username, Long id) {
+        var product = productRepository.findById(id);
+        if (product.isEmpty()) return "producto no existe";
+        else if (!product.get().getSeller().equals(username)) return "sin permiso"; // agregar que un admin lo elimine igual
+        productRepository.deleteById(id);
+        return "Eliminado";
+    }
+
+    // agregar editar
 }

@@ -49,6 +49,20 @@ public class ProductSellerController {
         return null;
     }
 
+    @GetMapping("/delete/{id}") // ver todos los productos
+    public String deleteProduct(@PathVariable Long id, HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null) throw new IllegalArgumentException("Sin cookies");
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("jwt")) {
+                String username = productSellerService.viewUsername(cookie.getValue());
+                return productService.deleteProduct(username, id); // auth de cookie
+            }
+        }
+        return null;
+    }
+
     @GetMapping("/products") // ver todos los productos
     public List<ProductResponse> getProducts(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
