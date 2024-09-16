@@ -17,8 +17,8 @@ public class InventoryService {
 
     private final ProductRepository productRepository;
 
-    public boolean isInStock(String sku) {
-        var inventory = productRepository.findBySku(sku);
+    public boolean isInStock(Long id) {
+        var inventory = productRepository.findById(id);
 
         return inventory.filter(value -> {
             if (value.getStock() > 0) return true;
@@ -33,18 +33,18 @@ public class InventoryService {
 
         var errorList = new ArrayList<String>();
 
-        List<String> skus = orderItems.stream().map(OrderItemRequest::getSku).toList();
-        List<Product> productList = productRepository.findBySkuIn(skus);
+        List<Long> ids = orderItems.stream().map(OrderItemRequest::getId).toList();
+        List<Product> productList = productRepository.findByIdIn(ids);
 
         orderItems.forEach(orderItemRequest -> {
-            var product = productList.stream().filter(value -> value.getSku().equals(orderItemRequest.getSku())).findFirst();
+            var product = productList.stream().filter(value -> value.getId().equals(orderItemRequest.getId())).findFirst();
             if (product.isEmpty()) {
-                errorList.add("Product with sku " + orderItemRequest.getSku() + " does not exist");
+                errorList.add("Product with id " + orderItemRequest.getId() + " does not exist");
             } else if (product.get().getStock() < orderItemRequest.getQuantity() && product.get().getStockNecessary()) {
                 System.out.println(product.get());
-                errorList.add("Product with sku " + orderItemRequest.getSku() + " has insufficient quantity");
+                errorList.add("Product with id " + orderItemRequest.getId() + " has insufficient quantity");
             } else if (product.get().getLimitPerOrder() < orderItemRequest.getQuantity()) {
-                errorList.add("Product with sku " + orderItemRequest.getSku() + " push the limit");
+                errorList.add("Product with id " + orderItemRequest.getId() + " push the limit");
             }
         });
 
@@ -52,8 +52,8 @@ public class InventoryService {
         return !errorList.isEmpty() ? new BaseResponse(errorList.toArray(new String[0])) : new BaseResponse(null);
     }
 
-    public Product getDataWithSku(String sku) {
-        Optional<Product> product = productRepository.findBySku(sku);
+    public Product getDataWithId(Long id) {
+        Optional<Product> product = productRepository.findById(id);
         return product.orElse(null);
     }
 }
