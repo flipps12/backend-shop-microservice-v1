@@ -126,7 +126,7 @@ public class OrderService {
     // -- funciones secundarias
 
     private MercadoPagoPreferenceItemsRequest mapOrderPreferencesItems(OrdersItems ordersItemsPreference) {
-        Product dataProduct = getProductData(ordersItemsPreference.getSku());
+        Product dataProduct = getProductData(ordersItemsPreference.getProductId());
         return MercadoPagoPreferenceItemsRequest.builder()
                 .id(String.valueOf(dataProduct.getId()))
                 .title(dataProduct.getName())
@@ -140,16 +140,16 @@ public class OrderService {
     private OrdersItems mapOrderItemRequestToOrderItem(OrderItemRequest orderItemRequest, Orders orders) {
         return OrdersItems.builder()
                 .id(orders.getId())
-                .sku(orderItemRequest.getSku())
+                .productId(orderItemRequest.getId())
                 .quantity(orderItemRequest.getQuantity())
                 .order(orders)
                 .build();
     }
 
-    private Product getProductData(String sku) {
+    private Product getProductData(Long id) {
         return webClientBuilder.build() // peticion checkear stock
                 .get()
-                .uri("http://localhost:8080/api/product/" + sku)
+                .uri("http://localhost:8080/api/product/" + id)
                 .retrieve()
                 .bodyToMono(Product.class)
                 .block();
