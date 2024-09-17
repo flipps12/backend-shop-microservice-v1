@@ -7,6 +7,7 @@ import com.ronnie.authenticator.entities.dtos.UserRegisterRequest;
 import com.ronnie.authenticator.entities.models.User;
 import com.ronnie.authenticator.repositories.SellersRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     private final JwtUtil jwtUtil;
@@ -73,5 +75,11 @@ public class AuthService {
     public String extractClaimsUsername(String cookie) {
         return sellersRepository.findByUsername(jwtUtil.extractUsername(cookie))
                 .get().getUsername();
+    }
+
+    public String getToken(String seller) {
+        var token = sellersRepository.findByUsername(seller);
+        if (token.isEmpty()) throw new IllegalArgumentException("seller inexistente");
+        return token.get().getToken();
     }
 }

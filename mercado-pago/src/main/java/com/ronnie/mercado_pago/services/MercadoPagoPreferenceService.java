@@ -2,22 +2,17 @@ package com.ronnie.mercado_pago.services;
 
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.preference.*;
-import com.mercadopago.net.HttpStatus;
-import com.mercadopago.resources.payment.Payment;
+import com.ronnie.mercado_pago.components.AESUtil;
 import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceItemsRequest;
 import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceRequest;
-import com.ronnie.mercado_pago.models.entities.MercadoPagoSellers;
-import com.ronnie.mercado_pago.repositories.MercadoPagoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import com.mercadopago.resources.preference.Preference;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import javax.crypto.Mac;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -25,15 +20,16 @@ import java.util.*;
 @RequiredArgsConstructor
 public class MercadoPagoPreferenceService {  // CAMBIAR la base de datos por la de Authentication service (idea)
 
-    private final MercadoPagoRepository mercadoPagoRepository;
+//    private final MercadoPagoRepository mercadoPagoRepository;
     private final WebClient.Builder webClientBuilder;
-    private final String urlNotification = "https://e419-2800-810-48e-2b8-10f0-c6dc-8f79-6e20.ngrok-free.app";
+    private final String urlNotification = "https://f16c-2800-810-48e-2b8-3147-9165-5542-b7f0.ngrok-free.app";
 
-    public String createPreference(MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) {
-        Optional<MercadoPagoSellers> secretToken = mercadoPagoRepository.findBySeller(mercadoPagoPreferenceRequest.getSeller());
-        if (secretToken.isEmpty()) return "seller unknown";
+    public String createPreference(MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) throws Exception {
+//        Optional<MercadoPagoSellers> secretToken = mercadoPagoRepository.findBySeller(mercadoPagoPreferenceRequest.getSeller());
+//        if (secretToken.isEmpty()) return "seller unknown";
+        // deprecated
 
-        MercadoPagoConfig.setAccessToken(secretToken.get().getToken());
+        MercadoPagoConfig.setAccessToken(getToken(mercadoPagoPreferenceRequest.getSeller()));
 
         PreferenceClient client = new PreferenceClient();
         List<PreferenceItemRequest> itemsRequest = new ArrayList();
@@ -76,10 +72,11 @@ public class MercadoPagoPreferenceService {  // CAMBIAR la base de datos por la 
         }
     }
 
-    public ResponseEntity<String> processPayment(String dataId, String seller) {
+    public ResponseEntity<String> processPayment(String dataId, String seller) throws Exception {
         
-        String url = "https://api.mercadopago.com/v1/payments/" + dataId + "?access_token=" +  mercadoPagoRepository.findBySeller(seller).get().getToken();
+//        String url = "https://api.mercadopago.com/v1/payments/" + dataId + "?access_token=" +  mercadoPagoRepository.findBySeller(seller).get().getToken();
 
+        String url = "https://api.mercadopago.com/v1/payments/" + dataId + "?access_token=" +  getToken(seller);
 
         try {
             String paymentDetails = webClientBuilder.build() // peticion checkear stock
@@ -110,5 +107,18 @@ public class MercadoPagoPreferenceService {  // CAMBIAR la base de datos por la 
             return ResponseEntity.status(500).body("Error processing payment");
         }
 
+    }
+
+
+    private String getToken(String username) throws Exception {
+        String getTokenEncrypted = webClientBuilder.build() // mejorar peticion, etc
+                .get()
+                .uri("http://localhost:8080/api/auth/token/" + username)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+
+        return AESUtil.decrypt(getTokenEncrypted);
     }
 }

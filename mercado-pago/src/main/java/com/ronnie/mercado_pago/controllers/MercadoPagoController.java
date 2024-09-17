@@ -19,7 +19,7 @@ public class MercadoPagoController {
 
     @PostMapping("create-preference")
     @ResponseStatus(HttpStatus.CREATED)
-    public String createPreference(@RequestBody MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) {
+    public String createPreference(@RequestBody MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) throws Exception {
 
         // Agregar peticion get al resource payment
         // y devolver true al status del order

@@ -18,7 +18,7 @@ public class WebHooksController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<String> handleWebhook(@PathVariable("seller") String seller, @RequestBody Map<String, Object> payload, @RequestHeader HttpHeaders headers) {
+    public ResponseEntity<String> handleWebhook(@PathVariable("seller") String seller, @RequestBody Map<String, Object> payload, @RequestHeader HttpHeaders headers) throws Exception {
 
         String topic = (String) payload.get("type");
 

@@ -84,6 +84,8 @@ public class OrderService {
 
             List<MercadoPagoPreferenceItemsRequest> orderItems = new ArrayList<>();
 
+            // agreagar seguridad con los productos, que sean del muismo vendedor, etc
+
             String resultInitPoint =  this.webClientBuilder.build() // peticion crear metodo de pago
                 .post()
                 .uri("http://localhost:8080/api/mercado-pago/create-preference")

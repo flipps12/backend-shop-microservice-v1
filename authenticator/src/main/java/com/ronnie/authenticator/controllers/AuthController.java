@@ -44,4 +44,9 @@ public class AuthController {
     public String extractJwtUsername(@PathVariable String cookie) {
         return authService.extractClaimsUsername(cookie);
     }
+
+    @GetMapping("/token/{seller}")
+    public String extractToken(@PathVariable("seller") String seller) {
+        return authService.getToken(seller);
+    }
 }
