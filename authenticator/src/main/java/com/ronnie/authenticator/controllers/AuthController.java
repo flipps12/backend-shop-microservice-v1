@@ -20,7 +20,7 @@ public class AuthController {
     }
 
     @PostMapping("/register/{jwt}")
-    public boolean register(@RequestBody UserRegisterRequest userRegisterRequest, @PathVariable String jwt) {
+    public boolean register(@RequestBody UserRegisterRequest userRegisterRequest, @PathVariable String jwt) throws Exception {
         return authService.register(jwt, userRegisterRequest);
     }
 

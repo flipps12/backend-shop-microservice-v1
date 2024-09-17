@@ -43,12 +43,19 @@ public class AuthService {
         return "password";
     }
 
-    public boolean register(String jwt, UserRegisterRequest userRegisterRequest) { // crear usuario si tenes un jwt especifico
+    public boolean register(String jwt, UserRegisterRequest userRegisterRequest) throws Exception { // crear usuario si tenes un jwt especifico
         String username = jwtUtil.extractUsername(jwt);
         String adminUsername = sellersRepository.findByRole("admin").getFirst().getUsername();
+
+        if (sellersRepository.findByUsername(userRegisterRequest.getUsername()).isPresent()) return false;
+
+        String token = AESUtil.encrypt(userRegisterRequest.getToken()); // encriptar token
+        String password = AESUtil.encrypt(userRegisterRequest.getPassword());
+
         if (username.equals(adminUsername)) {
             User user = User.builder()
-                    .password(userRegisterRequest.getPassword())
+                    .password(password)
+                    .token(token)
                     .username(userRegisterRequest.getUsername())
                     .role(userRegisterRequest.getRole())
                     .build();
