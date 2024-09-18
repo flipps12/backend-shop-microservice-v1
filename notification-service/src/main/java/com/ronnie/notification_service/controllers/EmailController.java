@@ -12,6 +12,11 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
+    @GetMapping("/status")
+    public String status() {
+        return "online";
+    }
+
     @PostMapping("/send")
     public String sendEmail(@RequestBody SendEmailRequest sendEmailRequest) {
         emailService.sendEmail(sendEmailRequest.getTo(), sendEmailRequest.getSubject(), sendEmailRequest.getText());

@@ -19,6 +19,10 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderRepository orderRepository;
 
+    @GetMapping("/status")
+    public String status() {
+        return "online";
+    }
 
     @PostMapping // crear orden
     @ResponseStatus(HttpStatus.OK)

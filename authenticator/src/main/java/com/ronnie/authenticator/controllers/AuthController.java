@@ -14,6 +14,11 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @GetMapping("/status")
+    public String status() {
+        return "online";
+    }
+
     @PostMapping
     public String login(@RequestBody UserLoginRequest userLoginRequest) throws Exception {
         return authService.login(userLoginRequest);

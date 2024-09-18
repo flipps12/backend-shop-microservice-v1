@@ -17,6 +17,11 @@ public class MercadoPagoController {
 
     private final MercadoPagoPreferenceService mercadoPagoPreferenceService;
 
+    @GetMapping("/status")
+    public String status() {
+        return "online";
+    }
+
     @PostMapping("create-preference")
     @ResponseStatus(HttpStatus.CREATED)
     public String createPreference(@RequestBody MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) throws Exception {

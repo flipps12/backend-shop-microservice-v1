@@ -21,6 +21,11 @@ public class ProductController {
     private final ProductService productService;
     private final InventoryService inventoryService;
 
+    @GetMapping("/status")
+    public String status() {
+        return "online";
+    }
+
     @GetMapping(path = "/{id}") // conseguir un producto solo con SKU
     public Product getDataWithSku(@PathVariable("id") Long id) {
         return inventoryService.getDataWithId(id);
