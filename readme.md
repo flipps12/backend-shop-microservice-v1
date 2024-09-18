@@ -22,3 +22,12 @@
 - Sellers ✅
 - Orders ✅
 - Products ✅
+
+<h3>APIs:</h3>
+
+- /server
+- /api/auth
+- /api/email
+- /api/mercado-pago
+- /api/product
+- /api/order
