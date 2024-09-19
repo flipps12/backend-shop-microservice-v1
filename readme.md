@@ -6,7 +6,11 @@
     <img src="./readme/Diagrama4.drawio.png" height="300em">
 </div>
 
-
+<div align="center">
+    <a href="https://github.com/flipps12/backend-shop-microservice-v1">
+        <img src="https://skillicons.dev/icons?i=java,spring,maven,postgresql,docker" /><br />
+    </a>
+</div>
 <h3>Microservices:</h3>
 
 - API Gateway ✅
