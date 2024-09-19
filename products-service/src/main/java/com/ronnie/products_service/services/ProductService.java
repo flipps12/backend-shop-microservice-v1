@@ -17,10 +17,11 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public void addProduct(ProductRequest productRequest) {
+    public void addProduct(ProductRequest productRequest, String username) {
+        System.out.println(username);
         var product = Product.builder()
                 .sku(productRequest.getSku())
-                .seller(productRequest.getSeller())
+                .seller(username)
                 .name(productRequest.getName())
                 .description(productRequest.getDescription())
                 .price(productRequest.getPrice())

@@ -27,8 +27,9 @@ public class ProductSellerController {
         if (cookies == null) return null;
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals("jwt")) {
+                String username = productSellerService.viewUsername(cookie.getValue());
                 productSellerService.authCookie(cookie.getValue());
-                productService.addProduct(productRequest); // auth de cookie
+                productService.addProduct(productRequest, username); // auth de cookie
                 return "auth";
             }
         }
