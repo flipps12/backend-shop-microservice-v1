@@ -35,3 +35,13 @@
 - /api/mercado-pago
 - /api/product
 - /api/order
+
+<h4>Env</h4>
+
+- Auth service
+    - JWT_SECRET
+- MP service
+    - URL
+- Notification service
+    - MAIL_USER
+    - MAIL_PASSWORD

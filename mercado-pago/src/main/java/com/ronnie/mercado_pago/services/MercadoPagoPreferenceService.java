@@ -6,6 +6,7 @@ import com.ronnie.mercado_pago.components.AESUtil;
 import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceItemsRequest;
 import com.ronnie.mercado_pago.models.dtos.MercadoPagoPreferenceRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,9 @@ public class MercadoPagoPreferenceService {  // CAMBIAR la base de datos por la 
 
 //    private final MercadoPagoRepository mercadoPagoRepository;
     private final WebClient.Builder webClientBuilder;
-    private final String urlNotification = "https://f16c-2800-810-48e-2b8-3147-9165-5542-b7f0.ngrok-free.app";
+
+    @Value("${user.notification}")
+    private String urlNotification;
 
     public String createPreference(MercadoPagoPreferenceRequest mercadoPagoPreferenceRequest) throws Exception {
 //        Optional<MercadoPagoSellers> secretToken = mercadoPagoRepository.findBySeller(mercadoPagoPreferenceRequest.getSeller());
