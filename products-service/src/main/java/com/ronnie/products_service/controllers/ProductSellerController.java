@@ -2,6 +2,7 @@ package com.ronnie.products_service.controllers;
 
 import com.ronnie.products_service.entities.dtos.ProductRequest;
 import com.ronnie.products_service.entities.dtos.ProductResponse;
+import com.ronnie.products_service.entities.models.Product;
 import com.ronnie.products_service.services.ProductSellerService;
 import com.ronnie.products_service.services.ProductService;
 import jakarta.servlet.http.Cookie;
@@ -76,6 +77,23 @@ public class ProductSellerController {
             }
         }
         return null;
+    }
+
+    @PostMapping("/update") // crear productos
+    public String editProduct(@RequestBody Product product, HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null) return null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("jwt")) {
+                String username = productSellerService.viewUsername(cookie.getValue());
+                if (username.isEmpty()) return "no auth";
+                productSellerService.authCookie(cookie.getValue());
+                productService.updateProduct(product, username);
+                return "auth";
+            }
+        }
+        return "no auth";
     }
 
 }

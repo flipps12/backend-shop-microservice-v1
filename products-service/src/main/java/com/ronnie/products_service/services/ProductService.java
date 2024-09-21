@@ -70,5 +70,12 @@ public class ProductService {
         return "Eliminado";
     }
 
+    public void updateProduct(Product product, String username) {
+        if (productRepository.findById(product.getId()).isEmpty()) throw new IllegalArgumentException("Id inexistente");
+        var productDB = productRepository.findById(product.getId());
+        if (!productDB.get().getSeller().equals(username) || !product.getSeller().equals(username)) throw new IllegalArgumentException("Vendedor incorrecto");
+        productRepository.save(product);
+    }
+
     // agregar editar
 }
