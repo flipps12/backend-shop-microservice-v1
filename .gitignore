@@ -39,3 +39,4 @@ api-gateway/dockerfile
 mercado-pago/dockerfile
 orders-service/dockerfile
 products-service/dockerfile
+api-gateway/src/main/resources/keystore.p12
