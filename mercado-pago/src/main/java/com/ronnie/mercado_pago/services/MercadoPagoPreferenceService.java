@@ -32,6 +32,7 @@ public class MercadoPagoPreferenceService {  // CAMBIAR la base de datos por la 
 //        if (secretToken.isEmpty()) return "seller unknown";
         // deprecated
 
+        System.out.println(urlNotification);
 
         MercadoPagoConfig.setAccessToken(getToken(mercadoPagoPreferenceRequest.getSeller()));
 
