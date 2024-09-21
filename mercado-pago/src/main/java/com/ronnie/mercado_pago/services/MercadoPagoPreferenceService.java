@@ -32,6 +32,7 @@ public class MercadoPagoPreferenceService {  // CAMBIAR la base de datos por la 
 //        if (secretToken.isEmpty()) return "seller unknown";
         // deprecated
 
+
         MercadoPagoConfig.setAccessToken(getToken(mercadoPagoPreferenceRequest.getSeller()));
 
         PreferenceClient client = new PreferenceClient();
@@ -54,6 +55,7 @@ public class MercadoPagoPreferenceService {  // CAMBIAR la base de datos por la 
 
             itemsRequest.add(itemRequest);
         }
+
 
         PreferenceRequest request = PreferenceRequest.builder()
                 .notificationUrl(urlNotification + "/webhook/" + mercadoPagoPreferenceRequest.getSeller())
