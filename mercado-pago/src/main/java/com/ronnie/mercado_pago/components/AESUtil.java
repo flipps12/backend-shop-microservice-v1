@@ -1,5 +1,6 @@
 package com.ronnie.mercado_pago.components;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,11 +13,18 @@ public class AESUtil {
 
     private static final String ALGORITHM = "AES";
     @Value("${aes.key}")
-    private static String key;
+    private String key;
+
+    private static String staticKey;
+
+    @PostConstruct
+    public void init() {
+        staticKey = this.key;
+    }
 
 
     public static String encrypt(String plainText) throws Exception {
-        SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), ALGORITHM);
+        SecretKeySpec secretKey = new SecretKeySpec(staticKey.getBytes(), ALGORITHM);
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
         byte[] encryptedBytes = cipher.doFinal(plainText.getBytes());
@@ -24,7 +32,7 @@ public class AESUtil {
     }
 
     public static String decrypt(String encryptedText) throws Exception {
-        SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), ALGORITHM);
+        SecretKeySpec secretKey = new SecretKeySpec(staticKey.getBytes(), ALGORITHM);
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
         byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(encryptedText));

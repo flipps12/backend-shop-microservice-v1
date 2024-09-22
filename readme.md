@@ -38,6 +38,8 @@
 
 <h3>Path Variable</h3>
 
+- API Gateway
+    - K_ALIAS
 - Auth service
     - JWT_SECRET
     - AES_KEY
