@@ -36,7 +36,7 @@
 - /api/product
 - /api/order
 
-<h4>Env</h4>
+<h3>Path Variable</h3>
 
 - Auth service
     - JWT_SECRET
