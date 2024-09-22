@@ -40,8 +40,10 @@
 
 - Auth service
     - JWT_SECRET
+    - AES_KEY
 - MP service
     - URL
+    - AES_KEY
 - Notification service
     - MAIL_USER
     - MAIL_PASSWORD

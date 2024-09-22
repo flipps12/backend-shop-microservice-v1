@@ -1,5 +1,6 @@
 package com.ronnie.mercado_pago.components;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
@@ -10,7 +11,8 @@ import java.util.Base64;
 public class AESUtil {
 
     private static final String ALGORITHM = "AES";
-    private static final String key = "1234567890123456";
+    @Value("${aes.key}")
+    private static String key;
 
 
     public static String encrypt(String plainText) throws Exception {
