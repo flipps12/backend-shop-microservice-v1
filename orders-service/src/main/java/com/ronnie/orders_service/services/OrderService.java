@@ -59,7 +59,7 @@ public class OrderService {
         System.out.println(orderRequest.getOrderItems());
         BaseResponse result =  this.webClientBuilder.build() // peticion checkear stock
                 .post()
-                .uri("http://localhost:8080/api/product/in-stock")
+                .uri("https://localhost:8080/api/product/in-stock")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .bodyValue(orderRequest.getOrderItems())
                 .retrieve()
@@ -88,7 +88,7 @@ public class OrderService {
 
             String resultInitPoint =  this.webClientBuilder.build() // peticion crear metodo de pago
                 .post()
-                .uri("http://localhost:8080/api/mercado-pago/create-preference")
+                .uri("https://localhost:8080/api/mercado-pago/create-preference")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .bodyValue(MercadoPagoPreferenceRequest.builder()
                         .externalReference(orders.getOrderNumber())
@@ -151,7 +151,7 @@ public class OrderService {
     private Product getProductData(Long id) {
         return webClientBuilder.build() // peticion checkear stock
                 .get()
-                .uri("http://localhost:8080/api/product/" + id)
+                .uri("https://localhost:8080/api/product/" + id)
                 .retrieve()
                 .bodyToMono(Product.class)
                 .block();

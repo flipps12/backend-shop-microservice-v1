@@ -98,7 +98,7 @@ public class MercadoPagoPreferenceService {  // CAMBIAR la base de datos por la 
 
             String setStatus = webClientBuilder.build() // mejorar peticion, etc
                     .post()
-                    .uri("http://localhost:8080/api/order/setStatus")
+                    .uri("https://localhost:8080/api/order/setStatus")
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .bodyValue(paymentDetails)
                     .retrieve()
@@ -119,7 +119,7 @@ public class MercadoPagoPreferenceService {  // CAMBIAR la base de datos por la 
     private String getToken(String username) throws Exception {
         String getTokenEncrypted = webClientBuilder.build() // mejorar peticion, etc
                 .get()
-                .uri("http://localhost:8080/api/auth/token/" + username)
+                .uri("https://localhost:8080/api/auth/token/" + username)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .bodyToMono(String.class)

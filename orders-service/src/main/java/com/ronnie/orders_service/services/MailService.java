@@ -26,7 +26,7 @@ public class MailService {
 
         String result =  this.webClientBuilder.build() // peticion checkear stock
                 .post()
-                .uri("http://localhost:8085/api/email/send")
+                .uri("https://localhost:8085/api/email/send")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .bodyValue(sendMail)
                 .retrieve()
